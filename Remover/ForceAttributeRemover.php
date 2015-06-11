@@ -86,7 +86,7 @@ class ForceAttributeRemover
 
         // Only for EE
         $this->deletePublishedProductValues($attribute);
-        $this->rescheduleCompleteness($attribute);
+        $this->reschedulePublishedCompleteness($attribute);
         // End of EE
 
         $this->attributeRemover->remove($attribute); // flush is done here!
@@ -123,7 +123,7 @@ class ForceAttributeRemover
     /**
      * @param AttributeInterface $attribute
      */
-    protected function rescheduleCompleteness(AttributeInterface $attribute)
+    protected function reschedulePublishedCompleteness(AttributeInterface $attribute)
     {
         foreach ($attribute->getFamilies() as $family) {
             $this->completenessManager->scheduleForFamily($family);
