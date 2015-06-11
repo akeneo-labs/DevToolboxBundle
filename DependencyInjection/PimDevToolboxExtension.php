@@ -14,7 +14,6 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
  */
 class PimDevToolboxExtension extends Extension
 {
-
     /**
      * {@inheritdoc}
      */
