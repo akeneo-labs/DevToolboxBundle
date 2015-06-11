@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Force the deletion of an attribute
  *
  * @author    Romain Monceau <romain@akeneo.com>
- * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
+ * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class AttributeDeleteCommand extends ContainerAwareCommand
@@ -44,9 +44,12 @@ class AttributeDeleteCommand extends ContainerAwareCommand
         $attributeCodes = $input->getArgument('attributes');
 
         foreach ($attributeCodes as $attributeCode) {
-            $attribute = $this->getAttribute($attributeCode); // TODO: Display errors if not found
-
-            $this->getAttributeRemover()->remove($attribute); //TODO: Display result or errors
+            try {
+                $attribute = $this->getAttribute($attributeCode);
+                $this->getAttributeRemover()->remove($attribute);
+            } catch (\Exception $e) {
+                $output->writeln(sprintf('<error>%s</error>', $e->getMessage()));
+            }
         }
     }
 
@@ -86,21 +89,5 @@ class AttributeDeleteCommand extends ContainerAwareCommand
     protected function getAttributeRemover()
     {
         return $this->getContainer()->get('pim_devtoolbox.remover.force_attribute');
-    }
-
-    /**
-     * @return CompletenessManager
-     */
-    protected function getCompletenessManager()
-    {
-        return $this->getContainer()->get('pim_catalog.manager.completeness');
-    }
-
-    /**
-     * @return CompletenessManager
-     */
-    protected function getPublishedCompletenessManager()
-    {
-        return $this->getContainer()->get('pim_devtoolbox.manager.published_completeness');
     }
 }

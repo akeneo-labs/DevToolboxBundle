@@ -17,7 +17,9 @@ use Pim\Bundle\EnrichBundle\Exception\DeleteException;
  * - belongs to a variant group
  * - belongs to a published product
  *
- * @author Romain Monceau <romain@akeneo.com>
+ * @author    Romain Monceau <romain@akeneo.com>
+ * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
+ * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class ForceAttributeRemover
 {
