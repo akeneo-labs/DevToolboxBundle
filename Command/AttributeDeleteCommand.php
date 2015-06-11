@@ -2,15 +2,13 @@
 
 namespace Pim\Bundle\DevToolboxBundle\Command;
 
-use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\EntityRepository;
-use Pim\Bundle\CatalogBundle\Manager\CompletenessManager;
 use Pim\Bundle\CatalogBundle\Model\AttributeInterface;
 use Pim\Bundle\DevToolboxBundle\Remover\ForceAttributeRemover;
 use Pim\Bundle\InstallerBundle\CommandExecutor;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -31,9 +29,14 @@ class AttributeDeleteCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('pim:dev-toolbox:delete-attribute')
+            ->setName('pim:dev-toolbox:attribute:delete')
             ->setDescription('Delete an attribute')
-            ->addArgument('attributes', InputArgument::IS_ARRAY, 'Specify your attribute codes');
+            ->addOption(
+                'attribute',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Specify your attribute code'
+            );
     }
 
     /**
@@ -41,15 +44,18 @@ class AttributeDeleteCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $attributeCodes = $input->getArgument('attributes');
+        $attributeCode = $input->getOption('attribute');
 
-        foreach ($attributeCodes as $attributeCode) {
-            try {
-                $attribute = $this->getAttribute($attributeCode);
-                $this->getAttributeRemover()->remove($attribute);
-            } catch (\Exception $e) {
-                $output->writeln(sprintf('<error>%s</error>', $e->getMessage()));
-            }
+        try {
+            $attribute = $this->getAttribute($attributeCode);
+
+            $output->writeln(sprintf('<info>Attribute "%s" removing...</info>', $attributeCode));
+
+            $this->getAttributeRemover()->remove($attribute);
+
+            $output->writeln(sprintf('<info>Attribute "%s" successfully removed</info>', $attributeCode));
+        } catch (\Exception $e) {
+            $output->writeln(sprintf('<error>%s</error>', $e->getMessage()));
         }
     }
 
@@ -64,7 +70,7 @@ class AttributeDeleteCommand extends ContainerAwareCommand
     {
         $attribute = $this->getAttributeRepository()->findOneBy(['code' => $attributeCode]);
         if (null === $attribute) {
-            throw new EntityNotFoundException(
+            throw new \Exception(
                 sprintf('Attribute "%s" not found', $attributeCode)
             );
         }

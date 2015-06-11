@@ -53,7 +53,7 @@ class ForceAttributeRemover
         EntityManager $em,
         AttributeRemover $attributeRemover,
         GroupRemover $groupRemover,
-        CompletenessManager $completenessManager, // should be completeness manager for published products
+        CompletenessManager $completenessManager,
         $groupClass,
         $publishedValueClass
     ) {
@@ -77,7 +77,6 @@ class ForceAttributeRemover
      */
     public function remove(AttributeInterface $attribute)
     {
-        // Check that this attribute is not the SKU
         if ('pim_catalog_identifier' === $attribute->getAttributeType()) {
             throw new DeleteException(
                 sprintf('Identifier attribute "%s" can not be removed', $attribute->getCode())
