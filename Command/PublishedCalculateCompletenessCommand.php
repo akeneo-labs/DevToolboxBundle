@@ -22,7 +22,7 @@ class PublishedCalculateCompletenessCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('pim:devtoolbox:published_completeness:calculate')
+            ->setName('pim:dev-toolbox:published_completeness:calculate')
             ->setDescription('Launch the product completeness calculation');
     }
 
