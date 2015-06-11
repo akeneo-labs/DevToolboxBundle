@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityRepository;
 use Pim\Bundle\CatalogBundle\Manager\CompletenessManager;
 use Pim\Bundle\CatalogBundle\Model\AttributeInterface;
 use Pim\Bundle\DevToolboxBundle\Remover\ForceAttributeRemover;
+use Pim\Bundle\InstallerBundle\CommandExecutor;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,6 +20,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class AttributeUpdateCommand extends ContainerAwareCommand
 {
+    /** @var CommandExecutor */
+    protected $commandExecutor;
+
     /**
      * {@inheritdoc}
      */
@@ -42,11 +46,6 @@ class AttributeUpdateCommand extends ContainerAwareCommand
 
             $this->getAttributeRemover()->remove($attribute); //TODO: Display result or errors
         }
-
-        // Recalcul de la completeness produit
-
-        // --- ONLY EE ---
-        // Recalcul de la completeness pour les produits publiés
     }
 
     /**
