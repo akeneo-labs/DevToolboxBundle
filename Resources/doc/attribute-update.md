@@ -7,6 +7,8 @@ Rename attribute code
 
 
 ## Delete an attribute
+
+### Notes
 You can't delete an identifier attribute.
 
 Then, the following steps are done:
@@ -28,14 +30,27 @@ Then the completeness of impacted products and published products will need to b
 A command has been added in this bundle to allow to calculate completeness on published products.
 To relaunch the completeness on products and published products, you can respectively launch the following commands:
 - `php app/console pim:completeness:calculate`
-- `php app/console pim:devtoolbox:published_completeness:calculate`
+- `php app/console pim:dev-toolbox:published_completeness:calculate`
 
 
-### Limitations
-Revert will fail cause the versioning does not make sense now.
-Drafts display diff on removed attribute but they are not taken in account.
+### Impacts
 
-These two behaviors come from Akeneo PIM.
+- Removing the only attribute of a variant group will remove the variant group.
+- Revert will fail cause the versioning does not make sense now.
+- Drafts display diff on removed attribute but they are not taken in account.
+
+### TODO
+Make it work on CE and with MongoDB
+
+
+## Define an attribute as scopable
+
+
+### Instruction
+
+### Impacts
+
+- Set scopable a variant group axis will remove it from the variant group
 
 
 ### TODO
