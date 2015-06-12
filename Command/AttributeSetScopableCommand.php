@@ -29,9 +29,7 @@ class AttributeSetScopableCommand extends ContainerAwareCommand
             ->setName('pim:dev-toolbox:attribute:set-scopable')
             ->setDescription('Redefine an attribute as scopable')
             ->addOption('scope', null, InputOption::VALUE_REQUIRED, 'Specify the default channel code for your values')
-            ->addOption('attribute', null, InputOption::VALUE_REQUIRED, 'Specify your attribute code')
-        ;
-
+            ->addOption('attribute', null, InputOption::VALUE_REQUIRED, 'Specify your attribute code');
     }
 
     /**
@@ -46,8 +44,11 @@ class AttributeSetScopableCommand extends ContainerAwareCommand
             $channel = $this->getChannel($channelCode);
             $attribute = $this->getAttribute($attributeCode);
 
+            $output->writeln(sprintf('<info>Attribute "%s" processing...</info>', $attributeCode));
+
             $this->getAttributeScopabilizer()->scopabilize($attribute, $channel);
 
+            $output->writeln(sprintf('<info>Attribute "%s" is now scopable</info>', $attributeCode));
         } catch (\Exception $e) {
             $output->writeln(sprintf('<error>%s</error>', $e->getMessage()));
         }

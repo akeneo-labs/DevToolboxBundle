@@ -98,14 +98,16 @@ class ForceAttributeRemover
      */
     protected function handleVariantGroups(AttributeInterface $attribute)
     {
-        $variants = $this->getGroupRepository()->getVariantGroupsByAttributeIds([$attribute->getId()]);
+        if ('pim_catalog_simpleselect' === $attribute->getAttributeType()) {
+            $variants = $this->getGroupRepository()->getVariantGroupsByAttributeIds([$attribute->getId()]);
 
-        foreach ($variants as $variant) {
-            /** @var Group $variant */
-            $variant->removeAxisAttribute($attribute);
+            foreach ($variants as $variant) {
+                /** @var Group $variant */
+                $variant->removeAxisAttribute($attribute);
 
-            if (0 === count($variant->getAxisAttributes())) {
-                $this->groupRemover->remove($variant, ['flush' => false]);
+                if (0 === count($variant->getAxisAttributes())) {
+                    $this->groupRemover->remove($variant, ['flush' => false]);
+                }
             }
         }
     }
