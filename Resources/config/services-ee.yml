@@ -37,8 +37,9 @@ services:
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@pim_catalog.remover.group'
+            - '@pim_catalog.manager.completeness'
+            - '@pim_devtoolbox.manager.published_completeness'
+            - '@pim_catalog.saver.attribute'
             - %pim_catalog.entity.group.class%
             - %pim_catalog.entity.product_value.class%
             - %pimee_workflow.entity.published_product_value.class%
-            - '@pim_catalog.manager.completeness'
-            - '@pim_devtoolbox.manager.published_completeness'

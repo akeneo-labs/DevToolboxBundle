@@ -2,6 +2,7 @@
 
 namespace Pim\Bundle\DevToolboxBundle\Updater;
 
+use Akeneo\Bundle\StorageUtilsBundle\Doctrine\Common\Saver\BaseSaver;
 use Doctrine\ORM\EntityManager;
 use Pim\Bundle\CatalogBundle\Doctrine\Common\Remover\GroupRemover;
 use Pim\Bundle\CatalogBundle\Manager\CompletenessManager;
@@ -29,6 +30,9 @@ class AttributeScopabilizer
     /** @var CompletenessManager */
     protected $publishedCompletenessManager;
 
+    /** @var BaseSaver */
+    protected $attributeSaver;
+
     /** @var string */
     protected $groupClass;
 
@@ -39,13 +43,21 @@ class AttributeScopabilizer
     protected $publishedValueClass;
 
     /**
-     * @param EntityManager $em
+     * @param EntityManager       $em
+     * @param GroupRemover        $groupRemover
+     * @param CompletenessManager $completenessManager
+     * @param CompletenessManager $publishedCompletenessManager
+     * @param BaseSaver           $attributeSaver
+     * @param string              $groupClass
+     * @param string              $productValueClass
+     * @param string              $publishedValueClass
      */
     public function __construct(
         EntityManager $em,
         GroupRemover $groupRemover,
         CompletenessManager $completenessManager,
         CompletenessManager $publishedCompletenessManager,
+        BaseSaver $attributeSaver,
         $groupClass,
         $productValueClass,
         $publishedValueClass
@@ -54,6 +66,7 @@ class AttributeScopabilizer
         $this->groupRemover = $groupRemover;
         $this->completenessManager = $completenessManager;
         $this->publishedCompletenessManager = $publishedCompletenessManager;
+        $this->attributeSaver = $attributeSaver;
         $this->groupClass = $groupClass;
         $this->productValueClass = $productValueClass;
         $this->publishedValueClass = $publishedValueClass;
@@ -65,6 +78,12 @@ class AttributeScopabilizer
      */
     public function scopabilize(AttributeInterface $attribute, ChannelInterface $channel)
     {
+        if ($attribute->isScopable()) {
+            throw new \Exception(
+                sprintf('Attribute "%s" is already scopable', $attribute->getCode())
+            );
+        }
+
         if ('pim_catalog_identifier' === $attribute->getAttributeType()) {
             throw new \Exception(
                 sprintf('Identifier attribute "%s" can not be scopable', $attribute->getCode())
@@ -79,6 +98,8 @@ class AttributeScopabilizer
 
         $this->rescheduleCompleteness($channel);
 
+        $attribute->setScopable(true);
+        $this->attributeSaver->save($attribute);
     }
 
     /**
