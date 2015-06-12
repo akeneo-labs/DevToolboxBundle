@@ -1,5 +1,6 @@
 # DevToolboxBundle
 Akeneo PIM developper toolbox
 
-This toolbox contains:
-* [Attribute update command](./Resources/doc/attribute-update.md)
+This toolbox contains commands to:
+* [Delete attributes](./Resources/doc/attribute-delete.md)
+* [Change the scope of an attribute] (./Resources/doc/attribute-set-scopable.md)

@@ -96,7 +96,7 @@ class AttributeScopabilizer
 
         $this->addPublishedValuesScope($attribute, $channel);
 
-        $this->rescheduleCompleteness($channel);
+        $this->rescheduleCompletenesses($attribute);
 
         $attribute->setScopable(true);
         $this->attributeSaver->save($attribute);
@@ -152,12 +152,14 @@ class AttributeScopabilizer
     }
 
     /**
-     * @param ChannelInterface $channel
+     * @param AttributeInterface $attribute
      */
-    protected function rescheduleCompleteness(ChannelInterface $channel)
+    protected function rescheduleCompletenesses(AttributeInterface $attribute)
     {
-        $this->completenessManager->scheduleForChannel($channel);
-        $this->publishedCompletenessManager->scheduleForChannel($channel);
+        foreach ($attribute->getFamilies() as $family) {
+            $this->completenessManager->scheduleForFamily($family);
+            $this->publishedCompletenessManager->scheduleForFamily($family);
+        }
     }
 
     /**
