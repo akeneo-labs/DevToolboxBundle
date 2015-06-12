@@ -20,9 +20,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class AttributeDeleteCommand extends ContainerAwareCommand
 {
-    /** @var CommandExecutor */
-    protected $commandExecutor;
-
     /**
      * {@inheritdoc}
      */
@@ -64,7 +61,7 @@ class AttributeDeleteCommand extends ContainerAwareCommand
      *
      * @return AttributeInterface
      *
-     * @throws \Doctrine\ORM\EntityNotFoundException
+     * @throws \Exception
      */
     protected function getAttribute($attributeCode)
     {
@@ -94,6 +91,6 @@ class AttributeDeleteCommand extends ContainerAwareCommand
      */
     protected function getAttributeRemover()
     {
-        return $this->getContainer()->get('pim_devtoolbox.remover.force_attribute');
+        return $this->getContainer()->get('pim_dev_toolbox.remover.force_attribute');
     }
 }

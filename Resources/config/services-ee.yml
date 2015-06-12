@@ -1,44 +1,44 @@
 parameters:
-    pim_devtoolbox.remover.force_attribute.class: Pim\Bundle\DevToolboxBundle\Remover\ForceAttributeRemover
-    pim_devtoolbox.doctrine.completeness_generator.class: Pim\Bundle\DevToolboxBundle\Doctrine\ORM\PublishedCompletenessGenerator
-    pim_devtoolbox.updater.attribute_scopabilizer.class: Pim\Bundle\DevToolboxBundle\Updater\AttributeScopabilizer
+    pim_dev_toolbox.remover.force_attribute.class: Pim\Bundle\DevToolboxBundle\Remover\ForceAttributeRemover
+    pim_dev_toolbox.doctrine.completeness_generator.class: Pim\Bundle\DevToolboxBundle\Doctrine\ORM\PublishedCompletenessGenerator
+    pim_dev_toolbox.updater.attribute_scopabilizer.class: Pim\Bundle\DevToolboxBundle\Updater\AttributeScopabilizer
 
 services:
-    pim_devtoolbox.manager.published_completeness:
+    pim_dev_toolbox.manager.published_completeness:
         class: %pim_catalog.manager.completeness.class%
         arguments:
             - '@pim_catalog.repository.family'
             - '@pim_catalog.repository.channel'
             - '@pim_catalog.repository.locale'
-            - '@pim_devtoolbox.doctrine.published_completeness_generator'
+            - '@pim_dev_toolbox.doctrine.published_completeness_generator'
             - '@validator'
             - %pimee_workflow.entity.published_product_completeness.class%
 
-    pim_devtoolbox.remover.force_attribute:
-        class: %pim_devtoolbox.remover.force_attribute.class%
+    pim_dev_toolbox.remover.force_attribute:
+        class: %pim_dev_toolbox.remover.force_attribute.class%
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@pim_catalog.remover.attribute'
             - '@pim_catalog.remover.group'
-            - '@pim_devtoolbox.manager.published_completeness'
+            - '@pim_dev_toolbox.manager.published_completeness'
             - %pim_catalog.entity.group.class%
             - %pimee_workflow.entity.published_product_value.class%
 
-    pim_devtoolbox.doctrine.published_completeness_generator:
-        class: %pim_devtoolbox.doctrine.completeness_generator.class%
+    pim_dev_toolbox.doctrine.published_completeness_generator:
+        class: %pim_dev_toolbox.doctrine.completeness_generator.class%
         arguments:
             - '@doctrine.orm.entity_manager'
             - %pimee_workflow.entity.published_product.class%
             - %pimee_workflow.entity.published_product_value.class%
             - %pim_catalog.entity.attribute.class%
 
-    pim_devtoolbox.updater.attribute_scopabilizer:
-        class: %pim_devtoolbox.updater.attribute_scopabilizer.class%
+    pim_dev_toolbox.updater.attribute_scopabilizer:
+        class: %pim_dev_toolbox.updater.attribute_scopabilizer.class%
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@pim_catalog.remover.group'
             - '@pim_catalog.manager.completeness'
-            - '@pim_devtoolbox.manager.published_completeness'
+            - '@pim_dev_toolbox.manager.published_completeness'
             - '@pim_catalog.saver.attribute'
             - %pim_catalog.entity.group.class%
             - %pim_catalog.entity.product_value.class%

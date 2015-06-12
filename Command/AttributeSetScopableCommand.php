@@ -58,7 +58,7 @@ class AttributeSetScopableCommand extends ContainerAwareCommand
      *
      * @return AttributeInterface
      *
-     * @throws \Doctrine\ORM\EntityNotFoundException
+     * @throws \Exception
      */
     protected function getAttribute($attributeCode)
     {
@@ -88,13 +88,13 @@ class AttributeSetScopableCommand extends ContainerAwareCommand
      *
      * @return ChannelInterface
      *
-     * @throws \Doctrine\ORM\EntityNotFoundException
+     * @throws \Exception
      */
     protected function getChannel($channelCode)
     {
         $channel = $this->getChannelRepository()->findOneBy(['code' => $channelCode]);
         if (null === $channel) {
-            throw new EntityNotFoundException(
+            throw new \Exception(
                 sprintf('Channel "%s" not found', $channelCode)
             );
         }
@@ -118,6 +118,6 @@ class AttributeSetScopableCommand extends ContainerAwareCommand
      */
     protected function getAttributeScopabilizer()
     {
-        return $this->getContainer()->get('pim_devtoolbox.updater.attribute_scopabilizer');
+        return $this->getContainer()->get('pim_dev_toolbox.updater.attribute_scopabilizer');
     }
 }

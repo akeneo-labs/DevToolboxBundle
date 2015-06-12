@@ -43,6 +43,6 @@ class PublishedCalculateCompletenessCommand extends ContainerAwareCommand
     {
         return $this
             ->getContainer()
-            ->get('pim_devtoolbox.doctrine.published_completeness_generator');
+            ->get('pim_dev_toolbox.doctrine.published_completeness_generator');
     }
 }
