@@ -13,13 +13,11 @@ Add the bundle VCS in the composer.json
 
 ```json
 "repositories": [
-    ...
     {
         "type": "vcs",
         "url": "https://github.com/akeneo-labs/DevToolboxBundle.git",
         "branch": "master"
     }
-    ...
 ]
 ```
 
@@ -27,9 +25,7 @@ set the bundle as a requirement:
 
 ```json
 "require": {
-    ...
     "akeneo-labs/dev-toolbox-bundle": "v1.0.0"
-    ...
 }
 ```
 
