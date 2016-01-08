@@ -11,7 +11,7 @@ Modify your composer.json to:
 
 Add the bundle VCS in the composer.json
 
-````
+```json
 "repositories": [
     ...
     {
@@ -21,19 +21,24 @@ Add the bundle VCS in the composer.json
     }
     ...
 ]
-````
+```
 
-set the bundle as a requirement
+set the bundle as a requirement:
 
-````
+```json
 "require": {
     ...
     "akeneo-labs/dev-toolbox-bundle": "v1.0.0"
     ...
 }
-````
+```
 
-Then you can launch the following command ```composer.phar update akeneo-labs/DevToolboxBundle```
+Then you can launch the following command 
+```shell
+composer.phar require akeneo-labs/DevToolboxBundle
+```
 
 Now, you can add your new bundle in the app/AppKernel.php file
-````$bundles[] = new Pim\Bundle\DevToolboxBundle\PimDevToolboxBundle();````
+```php
+$bundles[] = new Pim\Bundle\DevToolboxBundle\PimDevToolboxBundle();
+```
