@@ -1,5 +1,6 @@
 parameters:
     pim_dev_toolbox.remover.force_attribute.class: Pim\Bundle\DevToolboxBundle\Remover\ForceAttributeRemover
+    pim_dev_toolbox.remover.history_remover.class: Pim\Bundle\DevToolboxBundle\Remover\ORMHistoryRemover
     pim_dev_toolbox.doctrine.completeness_generator.class: Pim\Bundle\DevToolboxBundle\Doctrine\ORM\PublishedCompletenessGenerator
     pim_dev_toolbox.updater.attribute_scopabilizer.class: Pim\Bundle\DevToolboxBundle\Updater\AttributeScopabilizer
 
@@ -23,6 +24,12 @@ services:
             - '@pim_dev_toolbox.manager.published_completeness'
             - %pim_catalog.entity.group.class%
             - %pimee_workflow.entity.published_product_value.class%
+
+    pim_dev_toolbox.remover.history_remover:
+        class: %pim_dev_toolbox.remover.history_remover.class%
+        arguments:
+            - '@pim_catalog.doctrine.smart_manager_registry'
+            - '@doctrine.orm.entity_manager'
 
     pim_dev_toolbox.doctrine.published_completeness_generator:
         class: %pim_dev_toolbox.doctrine.completeness_generator.class%
